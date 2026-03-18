@@ -37,11 +37,13 @@ router.post('/login', async (req: Request, res: Response) => {
 
     res.cookie('token', token, {
       httpOnly: true,
+      secure: true,
+      sameSite: 'none',
       maxAge: 7 * 24 * 60 * 60 * 1000,
-      sameSite: 'lax',
+      path: '/',
     });
 
-    res.json({ success: true, userId: user._id });
+    res.json({ success: true, userId: user._id, token });
   } catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -50,7 +52,9 @@ router.post('/login', async (req: Request, res: Response) => {
 
 router.post('/verify', async (req: Request, res: Response) => {
   try {
-    const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+    const bearerToken = req.headers.authorization?.split(' ')[1];
+    const cookieToken = req.cookies?.token;
+    const token = cookieToken || bearerToken;
     
     if (!token) {
       res.status(401).json({ valid: false });

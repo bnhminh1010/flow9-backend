@@ -8,7 +8,9 @@ export interface AuthRequest extends Request {
 }
 
 export const authMiddleware = (req: AuthRequest, res: Response, next: NextFunction): void => {
-  const token = req.cookies?.token || req.headers.authorization?.split(' ')[1];
+  const bearerToken = req.headers.authorization?.split(' ')[1];
+  const cookieToken = req.cookies?.token;
+  const token = cookieToken || bearerToken;
 
   if (!token) {
     res.status(401).json({ error: 'No token provided' });
