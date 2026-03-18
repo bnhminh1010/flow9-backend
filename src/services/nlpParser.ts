@@ -6,22 +6,26 @@ export interface ParseResult {
 }
 
 const expenseCategoryRules = [
-  { keywords: ['ăn', 'trưa', 'sáng', 'tối', 'café', 'coffee', 'uống', 'lunch', 'dinner', 'breakfast'], category: 'Ăn uống' },
-  { keywords: ['mua', 'shopee', 'lazada', 'tiki', 'sắm', 'đặt'], category: 'Mua sắm' },
-  { keywords: ['xăng', 'ô tô', 'xe', 'grab', 'gojek', 'be', 'đi lại', 'taxi', 'uber'], category: 'Đi lại' },
-  { keywords: ['điện', 'nước', 'wifi', 'internet', 'phone', 'mobile', 'viettel', 'vnpt', 'fpt'], category: 'Điện/nước' },
-  { keywords: ['phim', 'netflix', 'youtube', 'spotify', 'game', 'giải trí', 'zalo', 'facebook'], category: 'Giải trí' },
-  { keywords: ['nhà', 'thuê', 'rent'], category: 'Nhà cửa' },
-  { keywords: ['khám', 'bệnh', 'thuốc', 'hospital', 'pharmacy'], category: 'Y tế' },
-  { keywords: ['học', 'khóa', 'course', 'udemy', 'coursera'], category: 'Giáo dục' },
+  { keywords: ['ăn', 'trưa', 'sáng', 'tối', 'café', 'coffee', 'cà phê', 'uống', 'lunch', 'dinner', 'breakfast', 'bún', 'phở', 'cơm', 'cửa hàng', 'quán', 'nhà hàng', 'đồ ăn', 'thức ăn', 'bánh'], category: 'Ăn uống' },
+  { keywords: ['mua', 'shopee', 'lazada', 'tiki', 'sắm', 'đặt', 'order', 'ship', 'giao hàng', 'trả', 'thanh toán', 'shopping', 'đơn hàng', 'checkout'], category: 'Mua sắm' },
+  { keywords: ['xăng', 'ô tô', 'xe', 'grab', 'gojek', 'be', 'đi lại', 'taxi', 'uber', 'bus', 'tàu', 'máy bay', 'vé', 'xe bus', 'metro', 'xe máy', 'parking', 'đỗ xe', 'bảo hiểm xe', 'rửa xe', 'sửa xe'], category: 'Đi lại' },
+  { keywords: ['điện', 'nước', 'wifi', 'internet', 'phone', 'mobile', 'viettel', 'vnpt', 'fpt', 'sim', 'data', '4g', '5g', 'viên pin', 'sạc', 'điện thoại'], category: 'Điện/nước' },
+  { keywords: ['phim', 'netflix', 'youtube', 'spotify', 'game', 'giải trí', 'zalo', 'facebook', 'tiktok', 'instagram', 'mạng xã hội', 'nhạc', 'phim lẻ', 'phim bộ', 'box', 'steam'], category: 'Giải trí' },
+  { keywords: ['nhà', 'thuê', 'rent', 'điện thuê', 'tiền nhà', 'chung cư', 'homestay', 'hotel', 'khách sạn', 'airbnb'], category: 'Nhà cửa' },
+  { keywords: ['khám', 'bệnh', 'thuốc', 'hospital', 'pharmacy', 'bác sĩ', 'y tế', 'bảo hiểm', 'thuốc men', 'vitamin', 'mỹ phẩm', 'làm đẹp', 'spa', 'massage', 'tóc', 'nail'], category: 'Y tế' },
+  { keywords: ['học', 'khóa', 'course', 'udemy', 'coursera', 'sách', 'trường', 'học phí', 'sinh viên', 'giáo dục', 'book', 'ebook', 'tài liệu', 'kỹ năng', 'training'], category: 'Giáo dục' },
+  { keywords: ['tiền', 'ra', 'chi', 'trả', 'thanh toán', 'thuê', 'mướn', 'phí', 'charge', 'payment', 'pay', 'expense', 'spend', 'tốn', 'mất', 'bỏ ra'], category: 'Khác' },
 ];
 
 const incomeCategoryRules = [
-  { keywords: ['lương', 'tháng', 'salary', 'monthly'], category: 'Lương' },
-  { keywords: ['thưởng', 'bonus', '奖励'], category: 'Thưởng' },
-  { keywords: ['bán', 'sell'], category: 'Khác' },
-  { keywords: ['lãi', 'interest', 'profit'], category: 'Khác' },
-  { keywords: ['tiền', 'nhận', 'received'], category: 'Khác' },
+  { keywords: ['lương', 'tháng', 'salary', 'monthly', ' paycheck', 'lương tháng', 'lương thưởng'], category: 'Lương' },
+  { keywords: ['thưởng', 'bonus', '奖励', 'tiền thưởng', 'thưởng tết', 'thưởng dịp'], category: 'Thưởng' },
+  { keywords: ['bán', 'sell', 'bán đồ', 'flips', 'ebay', 'shopee bán'], category: 'Khác' },
+  { keywords: ['lãi', 'interest', 'profit', 'lợi nhuận', 'đầu tư', 'cổ phiếu', 'chứng khoán', 'coin', 'crypto', 'bitcoin'], category: 'Khác' },
+  { keywords: ['nhận', 'received', 'chuyển', 'vào', 'transfer in', 'nạp', 'deposit', 'top up'], category: 'Khác' },
+  { keywords: ['công', 'làm', 'việc', 'freelance', 'contract', 'side hustle', 'remote', 'part time', 'job', 'commission', 'hoa hồng', 'phí dịch vụ', 'service fee'], category: 'Khác' },
+  { keywords: ['quà', 'tặng', 'gift', 'tết', 'lì xì', 'mừng', 'đám cưới', 'sinh nhật', 'occassion'], category: 'Khác' },
+  { keywords: ['hoàn', 'refund', 'trả lại', 'cashback', 'voucher', 'coupon', 'giảm giá', 'khuyến mãi', 'promotion'], category: 'Khác' },
 ];
 
 function parseAmount(input: string): number | null {
@@ -46,6 +50,24 @@ function parseAmount(input: string): number | null {
 
 function detectCategory(input: string): { type: 'income' | 'expense'; category: string } {
   const lowerInput = input.toLowerCase();
+
+  if (input.includes('+') || lowerInput.includes('thu') || lowerInput.includes('vào') || lowerInput.includes('nhận')) {
+    for (const rule of incomeCategoryRules) {
+      if (rule.keywords.some(keyword => lowerInput.includes(keyword))) {
+        return { type: 'income', category: rule.category };
+      }
+    }
+    return { type: 'income', category: 'Khác' };
+  }
+
+  if (input.includes('-') || lowerInput.includes('ra') || lowerInput.includes('chi') || lowerInput.includes('trả') || lowerInput.includes('mua')) {
+    for (const rule of expenseCategoryRules) {
+      if (rule.keywords.some(keyword => lowerInput.includes(keyword))) {
+        return { type: 'expense', category: rule.category };
+      }
+    }
+    return { type: 'expense', category: 'Khác' };
+  }
 
   for (const rule of incomeCategoryRules) {
     if (rule.keywords.some(keyword => lowerInput.includes(keyword))) {

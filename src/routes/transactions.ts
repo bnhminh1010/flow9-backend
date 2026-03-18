@@ -23,7 +23,13 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     if (type) query.type = type;
     if (category) query.category = category;
 
+    console.log('=== GET TRANSACTIONS DEBUG ===');
+    console.log('userId:', userId);
+    console.log('query:', query);
+    
     const transactions = await Transaction.find(query).sort({ date: -1 });
+    console.log('found transactions:', transactions.length);
+    console.log('sample:', transactions[0]);
 
     res.json({ transactions });
   } catch (error) {
@@ -153,9 +159,12 @@ router.delete('/:id', async (req: AuthRequest, res: Response) => {
 router.get('/aggregate', async (req: AuthRequest, res: Response) => {
   try {
     const userId = req.userId;
+    const mongoose = await import('mongoose');
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+    
     const { year, month } = req.query;
 
-    const matchStage: Record<string, unknown> = { userId };
+    const matchStage: Record<string, unknown> = { userId: userObjectId };
 
     if (year && month) {
       const startDate = new Date(parseInt(year as string), parseInt(month as string) - 1, 1);
@@ -176,7 +185,7 @@ router.get('/aggregate', async (req: AuthRequest, res: Response) => {
     ]);
 
     const byMonth = await Transaction.aggregate([
-      { $match: { userId } },
+      { $match: { userId: userObjectId } },
       {
         $group: {
           _id: { year: { $year: '$date' }, month: { $month: '$date' } },
@@ -192,7 +201,7 @@ router.get('/aggregate', async (req: AuthRequest, res: Response) => {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const last7Days = await Transaction.aggregate([
-      { $match: { userId, date: { $gte: sevenDaysAgo } } },
+      { $match: { userId: userObjectId, date: { $gte: sevenDaysAgo } } },
       {
         $group: {
           _id: { $dateToString: { format: '%Y-%m-%d', date: '$date' } },

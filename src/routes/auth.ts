@@ -14,8 +14,8 @@ router.post('/login', async (req: Request, res: Response) => {
       return;
     }
 
-    if (!/^\d{4,6}$/.test(pin)) {
-      res.status(400).json({ error: 'PIN must be 4-6 digits' });
+    if (!/^\d{6}$/.test(pin)) {
+      res.status(400).json({ error: 'PIN must be 6 digits' });
       return;
     }
 
@@ -76,8 +76,8 @@ router.post('/change-pin', async (req: Request, res: Response) => {
       return;
     }
 
-    if (!/^\d{4,6}$/.test(newPin)) {
-      res.status(400).json({ error: 'New PIN must be 4-6 digits' });
+    if (!/^\d{6}$/.test(newPin)) {
+      res.status(400).json({ error: 'New PIN must be 6 digits' });
       return;
     }
 
