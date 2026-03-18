@@ -143,4 +143,52 @@ router.delete('/:id', async (req: AuthRequest, res: Response) => {
   }
 });
 
+router.post('/:id/pay', async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+    const { amount, notes } = req.body;
+
+    const subscription = await Subscription.findOne({ _id: id, userId });
+
+    if (!subscription) {
+      res.status(404).json({ error: 'Subscription not found' });
+      return;
+    }
+
+    const paymentAmount = amount || subscription.amount;
+
+    const paymentRecord = {
+      date: new Date(),
+      amount: paymentAmount,
+      status: 'paid' as const,
+      notes: notes || ''
+    };
+
+    subscription.paymentHistory = subscription.paymentHistory || [];
+    subscription.paymentHistory.push(paymentRecord);
+
+    let nextBillingDate = new Date(subscription.nextBillingDate);
+    switch (subscription.billingCycle) {
+      case 'weekly':
+        nextBillingDate.setDate(nextBillingDate.getDate() + 7);
+        break;
+      case 'monthly':
+        nextBillingDate.setMonth(nextBillingDate.getMonth() + 1);
+        break;
+      case 'yearly':
+        nextBillingDate.setFullYear(nextBillingDate.getFullYear() + 1);
+        break;
+    }
+    subscription.nextBillingDate = nextBillingDate;
+
+    await subscription.save();
+
+    res.json({ subscription, payment: paymentRecord });
+  } catch (error) {
+    console.error('Mark as paid error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 export default router;
