@@ -2,37 +2,55 @@
 
 Personal Life OS - Financial Management API
 
-## Tech Stack
+---
+
+## Giới thiệu
+
+Backend API cho Flow9 - hệ thống quản lý tài chính cá nhân.
+
+### Tech Stack
 
 - **Runtime**: Node.js + TypeScript
 - **Framework**: Express.js
 - **Database**: MongoDB Atlas
-- **Auth**: JWT (httpOnly cookies)
-- **Features**: Cron jobs, NLP parser, SSE notifications
+- **Auth**: JWT (Bearer token)
+- **Features**: Cron jobs, NLP parser, SSE notifications, CoinGecko integration
 
-## Getting Started
+### Tính năng
 
-### Prerequisites
+- **Auth**: Đăng nhập bằng mã PIN 6 số
+- **Transactions**: Giao dịch với NLP parser
+- **Subscriptions**: Theo dõi đăng ký định kỳ
+- **Payroll**: Quản lý ca làm và lương
+- **Budgets**: Ngân sách và mục tiêu tiết kiệm
+- **Investments**: Theo dõi đầu tư (Crypto với CoinGecko)
+- **Debts**: Quản lý nợ
+
+---
+
+## Cài đặt
+
+### Yêu cầu
 
 - Node.js 18+
 - MongoDB Atlas account
-- npm or yarn
+- npm hoặc yarn
 
-### Installation
+### Cài đặt
 
 ```bash
-# Clone and install
+# Clone và cài đặt
 cd flow9-backend
 npm install
 
-# Setup environment
+# Tạo file môi trường
 cp .env.example .env
-# Edit .env with your MongoDB URI and JWT secret
+# Chỉnh sửa .env với MongoDB URI và JWT secret
 ```
 
-### Configuration
+### Cấu hình
 
-Create `.env` file:
+Tạo file `.env`:
 
 ```env
 PORT=3001
@@ -41,20 +59,22 @@ JWT_SECRET=your-secret-key-change-this
 FRONTEND_URL=http://localhost:3000
 ```
 
-### Run Development
+### Chạy Development
 
 ```bash
 npm run dev
 ```
 
-Server runs on http://localhost:3001
+Server chạy tại http://localhost:3001
 
-### Run Production
+### Chạy Production
 
 ```bash
 npm run build
 npm start
 ```
+
+---
 
 ## API Endpoints
 
@@ -62,61 +82,79 @@ npm start
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/api/auth/login` | Login with 6-digit PIN |
+| POST | `/api/auth/login` | Login với PIN 6 số |
 | POST | `/api/auth/verify` | Verify JWT token |
-| POST | `/api/auth/change-pin` | Change PIN |
-
-### Shifts (Protected)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/shifts` | Get shifts by month |
-| POST | `/api/shifts` | Create shift |
-| PUT | `/api/shifts/:id` | Update shift |
-| DELETE | `/api/shifts/:id` | Delete shift |
-
-### Salary (Protected)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/salary/config` | Get salary config |
-| PUT | `/api/salary/config` | Update salary config |
-| GET | `/api/salary/summary` | Get monthly summary |
+| POST | `/api/auth/change-pin` | Đổi PIN |
 
 ### Transactions (Protected)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/transactions` | Get transactions |
-| POST | `/api/transactions` | Create transaction (NLP) |
-| PUT | `/api/transactions/:id` | Update transaction |
-| DELETE | `/api/transactions/:id` | Delete transaction |
-| GET | `/api/transactions/aggregate` | Get aggregated data |
+| GET | `/api/transactions` | Lấy giao dịch |
+| POST | `/api/transactions` | Tạo giao dịch (NLP) |
+| PUT | `/api/transactions/:id` | Cập nhật giao dịch |
+| DELETE | `/api/transactions/:id` | Xóa giao dịch |
 
 ### Subscriptions (Protected)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/subscriptions` | Get all subscriptions |
-| GET | `/api/subscriptions/upcoming` | Get upcoming renewals |
-| POST | `/api/subscriptions` | Create subscription |
-| PUT | `/api/subscriptions/:id` | Update subscription |
-| POST | `/api/subscriptions/:id/pay` | Mark as paid |
-| DELETE | `/api/subscriptions/:id` | Delete subscription |
+| GET | `/api/subscriptions` | Lấy tất cả đăng ký |
+| POST | `/api/subscriptions` | Tạo đăng ký |
+| PUT | `/api/subscriptions/:id` | Cập nhật đăng ký |
+| POST | `/api/subscriptions/:id/pay` | Đánh dấu đã thanh toán |
+| DELETE | `/api/subscriptions/:id` | Xóa đăng ký |
 
-### Categories (Protected)
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/categories` | Get categories |
-| POST | `/api/categories` | Create category |
-| DELETE | `/api/categories/:id` | Delete category |
-
-### Notifications (Protected)
+### Payroll (Protected)
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/api/notifications/stream` | SSE notification stream |
+| GET | `/api/shifts` | Lấy ca làm |
+| POST | `/api/shifts` | Tạo ca làm |
+| GET | `/api/salary/config` | Lấy cấu hình lương |
+| PUT | `/api/salary/config` | Cập nhật cấu hình lương |
+| GET | `/api/salary/summary` | Lấy tổng kết tháng |
+
+### Budgets (Protected)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/budgets` | Lấy ngân sách và mục tiêu |
+| POST | `/api/budgets` | Tạo ngân sách/mục tiêu |
+| PUT | `/api/budgets/:id` | Cập nhật |
+| POST | `/api/budgets/:id/contribute` | Đóng góp vào mục tiêu |
+| DELETE | `/api/budgets/:id` | Xóa |
+
+### Investments (Protected)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/investments` | Lấy danh sách đầu tư |
+| POST | `/api/investments` | Thêm đầu tư |
+| PUT | `/api/investments/:id` | Cập nhật |
+| POST | `/api/investments/:id/update-price` | Cập nhật giá từ CoinGecko |
+| POST | `/api/investments/update-all-prices` | Cập nhật tất cả giá |
+| DELETE | `/api/investments/:id` | Xóa |
+
+### Debts (Protected)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/debts` | Lấy danh sách nợ |
+| POST | `/api/debts` | Thêm nợ |
+| PUT | `/api/debts/:id` | Cập nhật |
+| POST | `/api/debts/:id/payment` | Thanh toán nợ |
+| DELETE | `/api/debts/:id` | Xóa |
+
+### CoinGecko (Public)
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/coingecko/coins/search?q=` | Tìm kiếm coin |
+| GET | `/api/coingecko/coins/top` | Top 50 coins |
+| GET | `/api/coingecko/coins/:id/price` | Lấy giá coin |
+
+---
 
 ## NLP Transaction Format
 
@@ -137,6 +175,8 @@ k = thousand (50k = 50,000)
 tr = million (1.5tr = 1,500,000)
 ```
 
+---
+
 ## Project Structure
 
 ```
@@ -145,23 +185,28 @@ src/
 │   └── database.ts      # MongoDB connection
 ├── models/
 │   ├── User.ts
+│   ├── Transaction.ts
+│   ├── Subscription.ts
 │   ├── WorkShift.ts
 │   ├── SalaryConfig.ts
-│   ├── Subscription.ts
-│   ├── Transaction.ts
 │   ├── Category.ts
-│   └── AuditLog.ts
+│   ├── Budget.ts
+│   ├── Investment.ts
+│   └── Debt.ts
 ├── routes/
 │   ├── auth.ts
+│   ├── transactions.ts
+│   ├── subscriptions.ts
 │   ├── shifts.ts
 │   ├── salary.ts
-│   ├── subscriptions.ts
-│   ├── transactions.ts
-│   ├── categories.ts
-│   └── notifications.ts
+│   ├── budgets.ts
+│   ├── investments.ts
+│   ├── debts.ts
+│   └── coingecko.ts
 ├── services/
 │   ├── nlpParser.ts     # Transaction NLP parser
-│   └── salaryCalculator.ts
+│   ├── salaryCalculator.ts
+│   └── coingecko.ts    # CoinGecko API
 ├── middleware/
 │   └── auth.ts          # JWT authentication
 ├── cron/
@@ -169,13 +214,29 @@ src/
 └── index.ts             # Entry point
 ```
 
+---
+
 ## Scripts
 
 ```bash
-npm run dev      # Development with nodemon
+npm run dev      # Development với nodemon
 npm run build    # Build TypeScript
 npm start        # Production
 ```
+
+---
+
+## Deploy trên Railway
+
+1. Push code lên GitHub
+2. Kết nối repo với Railway
+3. Thêm environment variables:
+   - `MONGODB_URI`
+   - `JWT_SECRET`
+   - `FRONTEND_URL`
+4. Deploy tự động
+
+---
 
 ## License
 

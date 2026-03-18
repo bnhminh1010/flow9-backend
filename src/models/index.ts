@@ -5,3 +5,6 @@ export { Subscription, ISubscription, IPaymentHistory } from './Subscription';
 export { Transaction, ITransaction, IRecurringConfig } from './Transaction';
 export { Category, ICategory } from './Category';
 export { AuditLog, IAuditLog } from './AuditLog';
+export { Investment, IInvestment } from './Investment';
+export { Debt, IDebt } from './Debt';
+export { Budget, IBudget } from './Budget';

@@ -5,6 +5,10 @@ import subscriptionsRoutes from './subscriptions';
 import transactionsRoutes from './transactions';
 import categoriesRoutes from './categories';
 import notificationsRoutes from './notifications';
+import investmentsRoutes from './investments';
+import debtsRoutes from './debts';
+import budgetsRoutes from './budgets';
+import coingeckoRoutes from './coingecko';
 
 export {
   authRoutes,
@@ -13,5 +17,9 @@ export {
   subscriptionsRoutes,
   transactionsRoutes,
   categoriesRoutes,
-  notificationsRoutes
+  notificationsRoutes,
+  investmentsRoutes,
+  debtsRoutes,
+  budgetsRoutes,
+  coingeckoRoutes
 };

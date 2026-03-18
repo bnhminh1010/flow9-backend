@@ -15,6 +15,10 @@ import subscriptionsRoutes from './routes/subscriptions';
 import transactionsRoutes from './routes/transactions';
 import categoriesRoutes from './routes/categories';
 import notificationsRoutes from './routes/notifications';
+import investmentsRoutes from './routes/investments';
+import debtsRoutes from './routes/debts';
+import budgetsRoutes from './routes/budgets';
+import coingeckoRoutes from './routes/coingecko';
 import { startCronJobs } from './cron';
 
 const app = express();
@@ -42,6 +46,10 @@ app.use('/api/subscriptions', subscriptionsRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/categories', categoriesRoutes);
 app.use('/api/notifications', notificationsRoutes);
+app.use('/api/investments', investmentsRoutes);
+app.use('/api/debts', debtsRoutes);
+app.use('/api/budgets', budgetsRoutes);
+app.use('/api/coingecko', coingeckoRoutes);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
