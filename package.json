@@ -1,26 +1,36 @@
 {
   "name": "flow9-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Flow9 - Personal Life OS Backend",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts"
   },
-  "keywords": [],
+  "keywords": [
+    "flow9",
+    "personal-finance",
+    "api"
+  ],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.1.0",
     "mongoose": "^9.3.1",
     "node-cron": "^4.2.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
+    "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
