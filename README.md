@@ -240,4 +240,4 @@ npm start        # Production
 
 ## License
 
-MIT
+MIT+1
